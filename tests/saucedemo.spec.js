@@ -12,7 +12,7 @@ test.describe('Login Functionality', () => {
         await expect(page).toHaveURL(/inventory.html/);
     });
 
-    test('should show error with invlaid credentials', async ({ page }) => {
+    test('should show error with invalid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.login('wrong_user', 'wrong_password');
