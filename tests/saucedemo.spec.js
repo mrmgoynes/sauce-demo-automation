@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
 
 test.describe('Login Functionality', () => {
 
@@ -22,3 +23,6 @@ test.describe('Login Functionality', () => {
     });
 
 });
+
+const inventoryPage = new InventoryPage(page);
+await inventoryPage.addBackpackToCart();
