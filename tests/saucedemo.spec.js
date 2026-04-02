@@ -9,6 +9,9 @@ test.describe('Login Functionality', () => {
         await loginPage.goto();
         await loginPage.login('standard_user', 'secret_sauce');
 
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.addBackpackToCart();
+
         //Verify succesful login
         await expect(page).toHaveURL(/inventory.html/);
     });
@@ -23,6 +26,3 @@ test.describe('Login Functionality', () => {
     });
 
 });
-
-const inventoryPage = new InventoryPage(page);
-await inventoryPage.addBackpackToCart();
