@@ -8,4 +8,8 @@ export class InventoryPage {
     async addBackpackToCart() {
         await this.backpackAddToCartButton.click();
     }
+
+    async goToCart() {
+        await this.shoppingCartLink.click();
+    }
 }
