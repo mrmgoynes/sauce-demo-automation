@@ -82,4 +82,36 @@ test.describe('Add item to cart', () => {
 
     });
 
+    test('should remove backpack from cart', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+        const cartPage = new CartPage(page);
+
+        await inventoryPage.addBackpackToCart();
+
+        await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
+
+        //Go to the cart to verify it's empty
+        await inventoryPage.goToCart();
+
+        //Verify backpack is no longer in the cart
+        await expect(page.locator('.cart_item')).toHaveCount(0);
+
+    });
+
+    test('add multiple items to cart', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+        const cartPage = new CartPage(page);
+
+        await inventoryPage.addBackpackToCart();
+        await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+        await inventoryPage.goToCart();
+
+        await expect(page.locator('.shopping_cart_badge')).toHaveText('2');
+        //Verify backpack is in the cart
+        const cartList = page.locator('.cart_list');
+        await expect(cartList).toContainText('Sauce Labs Backpack');
+        await expect(cartList).toContainText('Sauce Labs Bike Light');
+
+    });
+
 });
