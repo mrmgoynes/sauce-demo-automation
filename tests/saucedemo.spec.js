@@ -115,3 +115,68 @@ test.describe('Add item to cart', () => {
     });
 
 });
+
+test.describe('Checkout Functionality', () => {
+    test.beforeEach(async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.login('standard_user', 'secret_sauce');
+    });
+
+    test('should show error for missing first name', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+
+        await inventoryPage.addBackpackToCart();
+        await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+        await inventoryPage.goToCart();
+
+        await page.click('[data-test="checkout"]');
+
+        await page.waitForSelector('[data-test="continue"]');
+
+        await page.click('[data-test="continue"]');
+
+        const errorContainer = page.locator('[data-test="error"]');
+        await expect(errorContainer).toContainText('Error: First Name is required');
+
+    });
+
+    test('missing postal code', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+
+        await inventoryPage.addBackpackToCart();
+        await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+        await inventoryPage.goToCart();
+
+        await page.click('[data-test="checkout"]');
+
+        await page.fill('[data-test="firstName"]', 'Michael');
+        await page.fill('[data-test="lastName"]', 'Test');
+
+        await page.click('[data-test="continue"]');
+
+        const errorContainer = page.locator('[data-test="error"]');
+        await expect(errorContainer).toContainText('Error: Postal Code is required');
+
+    });
+
+    test('successful checkout', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+
+        await inventoryPage.addBackpackToCart();
+        await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+        await inventoryPage.goToCart();
+
+        await page.click('[data-test="checkout"]');
+
+        await page.fill('[data-test="firstName"]', 'Michael');
+        await page.fill('[data-test="lastName"]', 'Test');
+        await page.fill('[data-test="postalCode"]', '75125');
+
+        await page.click('[data-test="continue"]');
+
+        await expect(page).toHaveURL(/checkout-step-two.html/);
+
+    });
+
+});
