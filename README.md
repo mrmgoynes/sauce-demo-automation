@@ -8,6 +8,19 @@ A professional-grade end-to-end (E2E) automation framework built with **Playwrig
 *   **High Observability:** Configured with Playwright Trace Viewer and HTML Reporters for deep-dive failure analysis.
 *   **Professional Git Workflow:** Managed via **GitKraken** with clean commit history and branch management.
 
+## Test Coverage (12+ Scenarios)
+Comprehensive validation across critical user journeys:
+* **Authentication Suite:**
+  * Happy path login and logout.
+  * Negative testing: Invalid credentials, locked-out users, and case-sensitivity validation.
+  * Field validation: Empty username/password error handling.
+* **Cart Management:**
+  * Dynamic item addition and removal.
+  * Multi-item synchronization and cart badge count verification.
+* **Checkout Workflow:**
+  * End-to-end purchasing flow validation.
+  * Robust error handling for missing mandatory fields (First Name, Last Name, Postal Code).
+
 ## Tech Stack
 *   **Framework:** Playwright (JavaScript)
 *   **Environment:** Node.js v18+
